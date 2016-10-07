@@ -29,5 +29,23 @@ describe Journey do
     it 'has an entry station' do
       expect(journey.entry_station).to eq station
     end
+  
+    it 'returns a penatly fare if no exit station is given' do
+      expect(journey.fare).to eq Journey::PENALTY_FARE
+    end
+    
+    context 'given an exit station' do
+      let(:station2) { double :station2 }
+      
+      it 'calculates a fare' do
+        journey.finish(station2)
+        expect(journey.fare).to eq 1
+      end
+      
+      it 'knows if a journey is complete' do
+        journey.finish(station2)
+        expect(journey).to be_complete
+      end
+    end
   end
 end
